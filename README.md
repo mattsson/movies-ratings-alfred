@@ -12,6 +12,11 @@ Movie Ratings uses a single command:
 
 Using the copy shortcut will copy the movie's IMDb URL and clicking **Enter** will open the movie's IMDb page.
 
+Download
+===
+
+[Direct download link to workflow](https://github.com/mattsson/movies-ratings-alfred/raw/v0.1/Movie%20Ratings.alfredworkflow).
+
 About
 ===
 The workflow is developed by [@knejt](http://twitter.com/knejt/), and based on [Better IMDB Search](http://www.packal.org/workflow/better-imdb-search)'s work.
