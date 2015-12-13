@@ -15,7 +15,7 @@ Using the copy shortcut will copy the movie's IMDb URL and clicking **Enter** wi
 Download
 ===
 
-[Direct download link to workflow](https://github.com/mattsson/movies-ratings-alfred/raw/v0.1/Movie%20Ratings.alfredworkflow).
+[Direct download link to workflow](https://github.com/mattsson/movies-ratings-alfred/raw/master/Movie%20Ratings.alfredworkflow).
 
 About
 ===
