@@ -4,8 +4,6 @@
 <dict>
 	<key>bundleid</key>
 	<string>marcusm.alfred.movieratings</string>
-	<key>category</key>
-	<string>Tools</string>
 	<key>connections</key>
 	<dict>
 		<key>33DE9FF1-2C78-4537-AC44-5B57F0FE8A79</key>

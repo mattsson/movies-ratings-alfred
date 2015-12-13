@@ -3,18 +3,25 @@ import urllib
 from workflow import Workflow, ICON_WEB, web
 
 def main(wf):
-
+  
     if len(wf.args):
         query = wf.args[0]
     else:
         query = None
+        
+    if len(query) < 2:
+        wf.add_item(title = 'Enter a movie title',
+                    subtitle = 'Please enter more than 2 characters.')
+        wf.send_feedback()
+        return
 
     imdbURL = 'http://www.imdb.com/title/'
 
     moviesData = web.get('http://www.omdbapi.com/?s=' + urllib.quote(query) + '&r=json').json()
-
+    
     if 'Response' in moviesData:
-        wf.add_item(title = 'No movie was found.')
+      wf.add_item(title = 'Nothing was found.')
+      
     elif 'Search' in moviesData:
 
         for movie in moviesData['Search']:
