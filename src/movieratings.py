@@ -11,13 +11,13 @@ def main(wf):
     else:
         query = None
 
-    log.debug('Started')
-    log.debug(query)
+    # log.debug('Started')
+    # log.debug(query)
         
     if len(query) < 2:
         wf.add_item(
             title = 'Enter a movie title',
-            subtitle = 'Please enter more than 2 characters.'
+            subtitle = 'Please enter more than 1 character.'
         )
         wf.send_feedback()
         return
