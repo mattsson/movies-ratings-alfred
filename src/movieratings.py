@@ -19,7 +19,7 @@ def main(wf):
 
     moviesData = web.get('http://www.omdbapi.com/?s=' + urllib.quote(query) + '&r=json').json()
     
-    if 'Response' in moviesData:
+    if 'Response' in moviesData and moviesData['Response'] == "False":
       wf.add_item(title = 'Nothing was found.')
       
     elif 'Search' in moviesData:
