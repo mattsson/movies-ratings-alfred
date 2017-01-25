@@ -2,16 +2,23 @@ import sys
 import urllib
 from workflow import Workflow, ICON_WEB, web
 
+log = None
+
 def main(wf):
   
     if len(wf.args):
         query = wf.args[0]
     else:
         query = None
+
+    # log.debug('Started')
+    # log.debug(query)
         
     if len(query) < 2:
-        wf.add_item(title = 'Enter a movie title',
-                    subtitle = 'Please enter more than 2 characters.')
+        wf.add_item(
+            title = 'Enter a movie title',
+            subtitle = 'Please enter more than 1 character.'
+        )
         wf.send_feedback()
         return
 
@@ -20,21 +27,43 @@ def main(wf):
     moviesData = web.get('http://www.omdbapi.com/?s=' + urllib.quote(query) + '&r=json').json()
     
     if 'Response' in moviesData and moviesData['Response'] == "False":
-      wf.add_item(title = 'Nothing was found.')
+        wf.add_item(title = 'Nothing was found.')
       
     elif 'Search' in moviesData:
-
+        counter = 0
         for movie in moviesData['Search']:
-            extendedMovieData = web.get('http://www.omdbapi.com/?tomatoes=true&i=' + movie['imdbID'] + '&r=json').json()
+            counter = counter + 1
 
-            wf.add_item(title = '%s (%s)' % (movie['Title'], movie['Year']),
-                        subtitle = 'IMDb: %s RT: %s%s Metacritic: %s' % (extendedMovieData['imdbRating'], extendedMovieData['tomatoMeter'], '' if extendedMovieData['tomatoMeter'] == 'N/A' else '%', extendedMovieData['Metascore']),
-                        arg = imdbURL + movie['imdbID'],
-                        valid = True,
-                        )
+            # We set a low timeout for subsequent requests to not block the execution of the script
+            # That is, user input will be ignored until existing requests finish.
+            timeout = 10
+            if counter > 1:
+                timeout = 0.8
+
+            subtitle = "Could not fetch details in time."
+
+            try:
+                response = web.get('http://www.omdbapi.com/?tomatoes=true&i=' + movie['imdbID'] + '&r=json', timeout=timeout)
+
+                extendedMovieData = response.json()
+                imdbRating = extendedMovieData['imdbRating']
+                tomatoesRating = extendedMovieData['tomatoMeter']
+                tomatoesSuffix = '' if extendedMovieData['tomatoMeter'] == 'N/A' else '%'
+                subtitle = 'IMDb: %s RT: %s%s Metacritic: %s' % (imdbRating, tomatoesRating, tomatoesSuffix, extendedMovieData['Metascore'])
+            except:
+                log.debug("Caught timeoout exception")
+
+            wf.add_item(
+                title = '%s (%s)' % (movie['Title'], movie['Year']),
+                subtitle = subtitle,
+                arg = imdbURL + movie['imdbID'],
+                valid = True
+            )
 
     wf.send_feedback()
 
 if __name__ == u"__main__":
     wf = Workflow()
+    # Assign Workflow logger to a global variable for convenience
+    log = wf.logger
     sys.exit(wf.run(main))
