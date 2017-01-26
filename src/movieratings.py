@@ -34,13 +34,14 @@ def main(wf):
         for movie in moviesData['Search']:
             counter = counter + 1
 
+            # Only show a max of 5 results to spare the OMDB API
+            if counter > 5:
+                break
+
             # We set a low timeout for subsequent requests to not block the execution of the script
             # That is, user input will be ignored until existing requests finish.
-            timeout = 10
-            if counter > 1:
-                timeout = 0.8
-
-            subtitle = "Could not fetch details in time."
+            timeout = 0.5
+            subtitle = "Could not fetch details in time, try searching for this specific title to get info."
 
             try:
                 response = web.get('http://www.omdbapi.com/?tomatoes=true&i=' + movie['imdbID'] + '&r=json', timeout=timeout)
@@ -51,7 +52,7 @@ def main(wf):
                 tomatoesSuffix = '' if extendedMovieData['tomatoMeter'] == 'N/A' else '%'
                 subtitle = 'IMDb: %s RT: %s%s Metacritic: %s' % (imdbRating, tomatoesRating, tomatoesSuffix, extendedMovieData['Metascore'])
             except:
-                log.debug("Caught timeoout exception")
+                log.debug("Caught timeout exception")
 
             wf.add_item(
                 title = '%s (%s)' % (movie['Title'], movie['Year']),
