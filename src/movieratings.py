@@ -24,7 +24,7 @@ def main(wf):
 
     imdbURL = 'http://www.imdb.com/title/'
 
-    moviesData = web.get('http://www.omdbapi.com/?s=' + urllib.quote(query) + '&r=json').json()
+    moviesData = web.get('http://www.omdbapi.com/?s=' + urllib.quote(query) + '&r=json&apikey=cfc98aff').json()
     
     if 'Response' in moviesData and moviesData['Response'] == "False":
         wf.add_item(title = 'Nothing was found.')
@@ -44,7 +44,7 @@ def main(wf):
             subtitle = "Could not fetch details in time, try searching for this specific title to get info."
 
             try:
-                response = web.get('http://www.omdbapi.com/?tomatoes=true&i=' + movie['imdbID'] + '&r=json', timeout=timeout)
+                response = web.get('http://www.omdbapi.com/?tomatoes=true&i=' + movie['imdbID'] + '&r=json&apikey=cfc98aff', timeout=timeout)
 
                 extendedMovieData = response.json()
                 imdbRating = extendedMovieData['imdbRating']
