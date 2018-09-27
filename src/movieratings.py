@@ -40,7 +40,7 @@ def main(wf):
 
             # We set a low timeout for subsequent requests to not block the execution of the script
             # That is, user input will be ignored until existing requests finish.
-            timeout = 0.5
+            timeout = 5.0
             subtitle = "Could not fetch details in time, try searching for this specific title to get info."
 
             try:
