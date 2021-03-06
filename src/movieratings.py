@@ -42,7 +42,7 @@ def main(wf):
 
                 extendedMovieData = response.json()
                 imdbRating = extendedMovieData['imdbRating']
-                tomatoesRating = extendedMovieData['Ratings'][1]['Value']
+                tomatoesRating = extendedMovieData['Ratings'][1]['Value'] if len(extendedMovieData['Ratings']) > 1 else 'N/A'
                 subtitle = 'IMDb: %s RT: %s Metacritic: %s' % (imdbRating, tomatoesRating, extendedMovieData['Metascore'])
             except:
                 log.debug("Caught timeout exception")
