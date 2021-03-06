@@ -30,14 +30,8 @@ def main(wf):
         wf.add_item(title = 'Nothing was found.')
       
     elif 'Search' in moviesData:
-        counter = 0
-        for movie in moviesData['Search']:
-            counter = counter + 1
-
-            # Only show a max of 5 results to spare the OMDB API
-            if counter > 5:
-                break
-
+        # Only show a max of 5 results to spare the OMDB API
+        for movie in moviesData['Search'][:5]:
             # We set a low timeout for subsequent requests to not block the execution of the script
             # That is, user input will be ignored until existing requests finish.
             timeout = 5.0
